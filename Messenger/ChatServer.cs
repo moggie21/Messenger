@@ -119,8 +119,22 @@ namespace Messenger
                     _usernames[client] = username;
                 }
 
+                var currentUsers = _usernames.Values.ToList();
+                var userListMessage = new Message("Система", $"[USERS]{string.Join("|", currentUsers)}");
+                var userListJson = JsonSerializer.Serialize(userListMessage) + Environment.NewLine;
+                var userListData = Encoding.UTF8.GetBytes(userListJson);
+
+                try
+                {
+                    client.GetStream().Write(userListData, 0, userListData.Length);
+                }
+                catch
+                {
+                }
+
                 var joinMessage = new Message("Система", $"{username} присоединился к чату");
                 BroadcastMessage(joinMessage, excludeClient: client);
+                OnMessageReceived(joinMessage);
 
                 OnUsersChanged();
 
@@ -177,6 +191,10 @@ namespace Messenger
                     {
                     }
                 }
+            }
+            if (excludeClient == null) 
+            {
+                OnMessageReceived(message);
             }
         }
 

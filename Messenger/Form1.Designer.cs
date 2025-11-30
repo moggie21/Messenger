@@ -77,6 +77,7 @@
             btnDisconnect.TabIndex = 9;
             btnDisconnect.Text = "Отключиться";
             btnDisconnect.UseVisualStyleBackColor = false;
+            btnDisconnect.Click += btnDisconnect_Click;
             // 
             // btnConnect
             // 
@@ -88,6 +89,7 @@
             btnConnect.TabIndex = 8;
             btnConnect.Text = "Подключиться";
             btnConnect.UseVisualStyleBackColor = false;
+            btnConnect.Click += btnConnect_Click;
             // 
             // btnStartServer
             // 
@@ -99,6 +101,7 @@
             btnStartServer.TabIndex = 7;
             btnStartServer.Text = "Запустить сервер";
             btnStartServer.UseVisualStyleBackColor = false;
+            btnStartServer.Click += btnStartServer_Click;
             // 
             // label4
             // 
@@ -194,6 +197,7 @@
             btnSend.TabIndex = 3;
             btnSend.Text = "Отправить";
             btnSend.UseVisualStyleBackColor = false;
+            btnSend.Click += btnSend_Click;
             // 
             // Form1
             // 
