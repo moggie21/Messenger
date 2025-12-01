@@ -4,10 +4,12 @@ namespace Messenger
     {
         private ChatServer? _server;
         private ChatClient? _client;
+        private string? _selectedRecipient = null;
         public Form1()
         {
             InitializeComponent();
             txtMessageInput.KeyDown += txtMessageInput_KeyDown;
+            lstUsers.DoubleClick += lstUsers_DoubleClick;
         }
 
         private async void btnStartServer_Click(object sender, EventArgs e)
@@ -126,13 +128,14 @@ namespace Messenger
 
             if (_client != null && _client.IsConnected)
             {
-                var msg = new Message(txtUsername.Text, text);
+                var msg = new Message(txtUsername.Text, text, _selectedRecipient);
                 _ = _client.SendMessageAsync(msg);
+                AppendMessage(msg);
             }
             else if (_server != null && _server.IsRunning)
             {
-                var msg = new Message(txtUsername.Text, text);
-                AppendMessage(msg);
+                var msg = new Message(txtUsername.Text, text, _selectedRecipient);
+                OnMessageReceived(msg);
             }
             else
             {
@@ -250,6 +253,15 @@ namespace Messenger
 
             if (isServer == true)
             {
+            }
+        }
+
+        private void lstUsers_DoubleClick(object sender, EventArgs e)
+        {
+            if (lstUsers.SelectedItem is string selectedUser)
+            {
+                _selectedRecipient = selectedUser;
+                txtMessageInput.Focus();
             }
         }
     }

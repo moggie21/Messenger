@@ -146,8 +146,49 @@ namespace Messenger
                     var msg = JsonSerializer.Deserialize<Message>(line);
                     if (msg?.Author == username)
                     {
-                        OnMessageReceived(msg);
-                        BroadcastMessage(msg, excludeClient: null);
+                        if (string.IsNullOrEmpty(msg.Recipient))
+                        {
+                            // публичное сообщение
+                            OnMessageReceived(msg);
+                            BroadcastMessage(msg, excludeClient: null);
+                        }
+                        else
+                        {
+                            // личное сообщение
+                            bool delivered = false;
+                            lock (_clients)
+                            {
+                                foreach (var kvp in _usernames)
+                                {
+                                    if (kvp.Value == msg.Recipient)
+                                    {
+                                        var json = JsonSerializer.Serialize(msg) + Environment.NewLine;
+                                        var data = Encoding.UTF8.GetBytes(json);
+                                        try
+                                        {
+                                            kvp.Key.GetStream().Write(data, 0, data.Length);
+                                            delivered = true;
+                                        }
+                                        catch { }
+                                        break;
+                                    }
+                                }
+                            }
+
+                            OnMessageReceived(msg);
+
+                            if (!delivered)
+                            {
+                                var errorMsg = new Message("Система", $"Пользователь '{msg.Recipient}' не в сети.");
+                                try
+                                {
+                                    var json = JsonSerializer.Serialize(errorMsg) + Environment.NewLine;
+                                    var data = Encoding.UTF8.GetBytes(json);
+                                    stream.Write(data, 0, data.Length);
+                                }
+                                catch { }
+                            }
+                        }
                     }
                 }
             }
