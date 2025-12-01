@@ -5,11 +5,33 @@ namespace Messenger
         private ChatServer? _server;
         private ChatClient? _client;
         private string? _selectedRecipient = null;
+        private readonly List<Message> _chatMessages = new();
         public Form1()
         {
             InitializeComponent();
             txtMessageInput.KeyDown += txtMessageInput_KeyDown;
             lstUsers.DoubleClick += lstUsers_DoubleClick;
+            _ = LoadChatHistoryAsync();
+
+        }
+        private async Task LoadChatHistoryAsync()
+        {
+            var messages = await ChatHistory.LoadAsync();
+            _chatMessages.Clear();
+            _chatMessages.AddRange(messages);
+
+            txtChatHistory.Clear();
+            foreach (var msg in messages)
+            {
+                txtChatHistory.AppendText(msg.ToString() + Environment.NewLine);
+            }
+            txtChatHistory.ScrollToCaret();
+        }
+
+        protected override async void OnFormClosing(FormClosingEventArgs e)
+        {
+            await ChatHistory.SaveAsync(_chatMessages);
+            base.OnFormClosing(e);
         }
 
         private async void btnStartServer_Click(object sender, EventArgs e)
@@ -197,6 +219,7 @@ namespace Messenger
 
         private void AppendMessage(Message msg)
         {
+            _chatMessages.Add(msg);
             txtChatHistory.AppendText(msg.ToString() + Environment.NewLine);
             txtChatHistory.ScrollToCaret();
         }
