@@ -105,6 +105,8 @@ namespace Messenger
 
             SetUiMode(isServer: null);
             AppendMessage(new Message("Система", "Отключено."));
+            _selectedRecipient = null;
+            btnClearRecipient.Enabled = false;
         }
 
         private void btnSend_Click(object sender, EventArgs e)
@@ -130,7 +132,10 @@ namespace Messenger
             {
                 var msg = new Message(txtUsername.Text, text, _selectedRecipient);
                 _ = _client.SendMessageAsync(msg);
-                AppendMessage(msg);
+                if (_selectedRecipient != null)
+                {
+                    AppendMessage(msg);
+                }
             }
             else if (_server != null && _server.IsRunning)
             {
@@ -261,8 +266,22 @@ namespace Messenger
             if (lstUsers.SelectedItem is string selectedUser)
             {
                 _selectedRecipient = selectedUser;
+                btnClearRecipient.Enabled = true;
+                this.Text = $"------- ЛИЧНЫЙ ЧАТ С {selectedUser} -------";
                 txtMessageInput.Focus();
             }
+        }
+
+        private void btnClearRecipient_Click(object sender, EventArgs e)
+        {
+            ClearRecipient();
+        }
+
+        private void ClearRecipient()
+        {
+            _selectedRecipient = null;
+            btnClearRecipient.Enabled = false;
+            this.Text = "------- ОБЩИЙ ЧАТ -------";
         }
     }
 }

@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             groupBoxNetwork = new GroupBox();
+            label5 = new Label();
+            btnClearRecipient = new Button();
             btnDisconnect = new Button();
             btnConnect = new Button();
             btnStartServer = new Button();
@@ -48,6 +50,8 @@
             // 
             // groupBoxNetwork
             // 
+            groupBoxNetwork.Controls.Add(label5);
+            groupBoxNetwork.Controls.Add(btnClearRecipient);
             groupBoxNetwork.Controls.Add(btnDisconnect);
             groupBoxNetwork.Controls.Add(btnConnect);
             groupBoxNetwork.Controls.Add(btnStartServer);
@@ -59,12 +63,38 @@
             groupBoxNetwork.Controls.Add(txtServerIp);
             groupBoxNetwork.Controls.Add(label2);
             groupBoxNetwork.Controls.Add(label1);
-            groupBoxNetwork.Location = new Point(12, 331);
+            groupBoxNetwork.Location = new Point(12, 317);
             groupBoxNetwork.Name = "groupBoxNetwork";
-            groupBoxNetwork.Size = new Size(730, 289);
+            groupBoxNetwork.Size = new Size(730, 347);
             groupBoxNetwork.TabIndex = 0;
             groupBoxNetwork.TabStop = false;
             groupBoxNetwork.Text = "Управление";
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Font = new Font("Segoe UI", 7.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label5.Location = new Point(24, 254);
+            label5.Name = "label5";
+            label5.Size = new Size(157, 68);
+            label5.TabIndex = 11;
+            label5.Text = "*чтобы отправить \r\nличное сообщение, \r\nвыберите пользователя \r\nдвойным кликом";
+            // 
+            // btnClearRecipient
+            // 
+            btnClearRecipient.BackColor = Color.FromArgb(192, 192, 255);
+            btnClearRecipient.Cursor = Cursors.Hand;
+            btnClearRecipient.Enabled = false;
+            btnClearRecipient.FlatStyle = FlatStyle.Flat;
+            btnClearRecipient.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnClearRecipient.ForeColor = SystemColors.ControlText;
+            btnClearRecipient.Location = new Point(196, 293);
+            btnClearRecipient.Name = "btnClearRecipient";
+            btnClearRecipient.Size = new Size(250, 38);
+            btnClearRecipient.TabIndex = 10;
+            btnClearRecipient.Text = "Вернуться в ощий чат";
+            btnClearRecipient.UseVisualStyleBackColor = false;
+            btnClearRecipient.Click += btnClearRecipient_Click;
             // 
             // btnDisconnect
             // 
@@ -115,9 +145,9 @@
             // lstUsers
             // 
             lstUsers.FormattingEnabled = true;
-            lstUsers.Location = new Point(179, 182);
+            lstUsers.Location = new Point(196, 182);
             lstUsers.Name = "lstUsers";
-            lstUsers.Size = new Size(250, 84);
+            lstUsers.Size = new Size(250, 104);
             lstUsers.TabIndex = 4;
             // 
             // label3
@@ -131,21 +161,21 @@
             // 
             // txtUsername
             // 
-            txtUsername.Location = new Point(179, 138);
+            txtUsername.Location = new Point(196, 138);
             txtUsername.Name = "txtUsername";
             txtUsername.Size = new Size(250, 27);
             txtUsername.TabIndex = 4;
             // 
             // txtPort
             // 
-            txtPort.Location = new Point(179, 91);
+            txtPort.Location = new Point(196, 91);
             txtPort.Name = "txtPort";
             txtPort.Size = new Size(250, 27);
             txtPort.TabIndex = 3;
             // 
             // txtServerIp
             // 
-            txtServerIp.Location = new Point(179, 47);
+            txtServerIp.Location = new Point(196, 47);
             txtServerIp.Name = "txtServerIp";
             txtServerIp.Size = new Size(250, 27);
             txtServerIp.TabIndex = 2;
@@ -203,7 +233,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(982, 632);
+            ClientSize = new Size(982, 676);
             Controls.Add(btnSend);
             Controls.Add(txtMessageInput);
             Controls.Add(txtChatHistory);
@@ -234,5 +264,7 @@
         private Label label4;
         private Button btnDisconnect;
         private Button btnConnect;
+        private Label label5;
+        private Button btnClearRecipient;
     }
 }
